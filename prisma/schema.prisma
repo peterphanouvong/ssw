@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String  @id
+  email             String  @unique
+  firstName         String
+  lastName          String?
+  createdAt         DateTime @default(now())
+  profile           Profile?
+}
+
+model Profile {
+  vnswId            String?
+  id                String     @id @unique
+  user              User       @relation(fields: [id], references: [id])
+  activeKidsVoucher  ActiveKidsVoucher?
+}
+
+model Event {
+  id                Int         @id @default(autoincrement())
+  name              String
+  startTime         DateTime?   @default(now())
+  endTime           DateTime?
+  price             Decimal?
+  location          String?
+  // description
+  // video
+  
+}
+
+model ActiveKidsVoucher {
+  id                Int         @id @default(autoincrement())
+  owner             Profile     @relation(fields: [ownerId], references: [id])
+  ownerId           String      @unique
+  credit            Int
+  isActive          Boolean
+  voucherNumber     String
+  name              String
+  expiryDate        DateTime
+  value             Int
+}
+
+enum PaymentMethod {
+  ONLINE
+  ACTIVE_KIDS
+  IN_PERSON
+  OTHER
+}
