@@ -1,31 +1,21 @@
+import { styled, useStyletron } from "baseui";
 import { Avatar } from "baseui/avatar";
 import { Button } from "baseui/button";
 import { Drawer } from "baseui/drawer";
 import { ALIGN, HeaderNavigation } from "baseui/header-navigation";
-import { ChevronDown, Menu } from "baseui/icon";
 import {
   NavigationItem,
   NavigationList,
 } from "baseui/header-navigation/styled-components";
 import { StyledLink } from "baseui/link";
+import { StatefulMenu } from "baseui/menu";
+import { StatefulPopover } from "baseui/popover";
 import { Spinner } from "baseui/spinner";
 import Link from "next/link";
 import { useState } from "react";
 import { useUserContext } from "../context/userContext";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useUser } from "../hooks/useUser";
-import { theme } from "../theme";
-
-import { styled } from "baseui";
-import { useStyletron } from "styletron-react";
-import { StatefulPopover } from "baseui/popover";
-import { Icon } from "baseui/icon";
-import { StatefulMenu } from "baseui/menu";
-import { Block } from "baseui/block";
-
-const AvatarWrapper = styled("div", ({ $theme }) => ({
-  cursor: "pointer",
-}));
 
 const List = styled("ul", () => ({
   padding: 0,
@@ -42,10 +32,20 @@ export const SSWNavbar = (props: Props) => {
   const { oauthUser, isLoading } = useUserContext();
   const { user } = useUser(oauthUser?.id);
 
-  const [css] = useStyletron();
+  const [css, theme] = useStyletron();
+
+  const bottomCss = css({
+    position: "absolute",
+    bottom: 0,
+    padding: "0.5rem",
+    // @ts-ignore
+    borderTop: "1px solid " + theme.colors.grey100,
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100%",
+  });
 
   const [isProfileNavOpen, setIsProfileNavOpen] = useState<boolean>(false);
-  const [isMainNavOpen, setIsMainNavOpen] = useState<boolean>(false);
 
   const isTablet = useMediaQuery(theme.breakpoints.small);
 
@@ -56,7 +56,9 @@ export const SSWNavbar = (props: Props) => {
     <HeaderNavigation>
       <NavigationList $align={ALIGN.left}>
         <NavigationItem>
-          <Link href="/">Sydney South West Volleyball</Link>
+          <Link href="/">
+            {isTablet ? "Sydney South West Volleyball" : "SSWV"}
+          </Link>
         </NavigationItem>
       </NavigationList>
       <NavigationList $align={ALIGN.center} />
@@ -131,119 +133,92 @@ export const SSWNavbar = (props: Props) => {
     </HeaderNavigation>
   ) : (
     // Authenticated mobile
-    <HeaderNavigation>
-      <NavigationList $align={ALIGN.left}>
-        <NavigationItem>
-          <Button onClick={() => setIsMainNavOpen(true)} kind="tertiary">
-            <Menu />
-          </Button>
-          <Drawer
-            isOpen={isMainNavOpen}
-            size="full"
-            onClose={() => setIsMainNavOpen(false)}
-            anchor="left"
-            overrides={{
-              DrawerContainer: {
-                style: ({ $theme }) => ({
-                  marginTop: "4rem",
-                  borderTop: `1px solid ${$theme.colors.grey100}`,
-                }),
-              },
-              Backdrop: {
-                style: ({ $theme }) => ({
-                  background: "transparent",
-                }),
-              },
-            }}
-          >
-            <List>
-              <ListItem>
-                <StyledLink>
-                  <Link href="/">Home</Link>
-                </StyledLink>
-              </ListItem>
-              <ListItem>
-                <StyledLink>
-                  <Link href="/events">Events</Link>
-                </StyledLink>
-              </ListItem>
-            </List>
-          </Drawer>
-        </NavigationItem>
-      </NavigationList>
-      <NavigationList $align={ALIGN.center}>
-        <NavigationItem>
-          <Link href="/">SSWV</Link>
-        </NavigationItem>
-      </NavigationList>
-      <NavigationList $align={ALIGN.right}>
-        <NavigationItem $style={{ paddingRight: "24px" }}>
-          <Button
-            kind="tertiary"
-            shape="round"
-            overrides={{
-              BaseButton: {
-                style: ({ $theme }) => ({
-                  padding: "4px",
-                }),
-              },
-            }}
-            onClick={() => setIsProfileNavOpen(true)}
-          >
-            <Avatar name={`${user.firstName} ${user.lastName}`} />
-          </Button>
-          <Drawer
-            isOpen={isProfileNavOpen}
-            size="full"
-            onClose={() => setIsProfileNavOpen(false)}
-            overrides={{
-              DrawerContainer: {
-                style: ({ $theme }) => ({
-                  marginTop: "4rem",
-                  borderTop: `1px solid ${$theme.colors.grey100}`,
-                }),
-              },
-              Backdrop: {
-                style: ({ $theme }) => ({
-                  background: "transparent",
-                }),
-              },
-            }}
-          >
-            <div
-              className={css({
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-              })}
+    <>
+      <HeaderNavigation>
+        <NavigationList $align={ALIGN.left}>
+          <NavigationItem>
+            <Link href="/">SSWV</Link>
+          </NavigationItem>
+        </NavigationList>
+        <NavigationList $align={ALIGN.center} />
+
+        <NavigationList $align={ALIGN.right}>
+          <NavigationItem $style={{ paddingRight: "24px" }}>
+            <Button
+              kind="tertiary"
+              shape="round"
+              overrides={{
+                BaseButton: {
+                  style: ({ $theme }) => ({
+                    padding: "4px",
+                  }),
+                },
+              }}
+              onClick={() => setIsProfileNavOpen(true)}
             >
               <Avatar name={`${user.firstName} ${user.lastName}`} />
+            </Button>
+            <Drawer
+              isOpen={isProfileNavOpen}
+              size="full"
+              onClose={() => setIsProfileNavOpen(false)}
+              overrides={{
+                DrawerContainer: {
+                  style: ({ $theme }) => ({
+                    marginTop: "4rem",
+                    borderTop: `1px solid ${$theme.colors.grey100}`,
+                  }),
+                },
+                Backdrop: {
+                  style: ({ $theme }) => ({
+                    background: "transparent",
+                  }),
+                },
+              }}
+            >
               <div
                 className={css({
                   display: "flex",
-                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "1rem",
                 })}
               >
-                <span>{`${user.firstName} ${user.lastName}`}</span>
-                <span>{user.email}</span>
+                <Avatar name={`${user.firstName} ${user.lastName}`} />
+                <div
+                  className={css({
+                    display: "flex",
+                    flexDirection: "column",
+                  })}
+                >
+                  <span>{`${user.firstName} ${user.lastName}`}</span>
+                  <span>{user.email}</span>
+                </div>
               </div>
-            </div>
 
-            <List>
-              <ListItem>
-                <StyledLink>
-                  <Link href="/profile">My Profile</Link>
-                </StyledLink>
-              </ListItem>
-              <ListItem>
-                <StyledLink>
-                  <Link href="/api/auth/logout">Sign out</Link>
-                </StyledLink>
-              </ListItem>
-            </List>
-          </Drawer>
-        </NavigationItem>
-      </NavigationList>
-    </HeaderNavigation>
+              <List>
+                <ListItem>
+                  <StyledLink>
+                    <Link href="/profile">My profile</Link>
+                  </StyledLink>
+                </ListItem>
+                <ListItem>
+                  <StyledLink>
+                    <Link href="/api/auth/logout">Sign out</Link>
+                  </StyledLink>
+                </ListItem>
+              </List>
+            </Drawer>
+          </NavigationItem>
+        </NavigationList>
+      </HeaderNavigation>
+      <div className={bottomCss}>
+        <Link href="/">
+          <Button kind="tertiary">Home</Button>
+        </Link>
+        <Link href="/events">
+          <Button kind="tertiary">Events</Button>
+        </Link>
+      </div>
+    </>
   );
 };

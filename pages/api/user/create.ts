@@ -1,9 +1,12 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../db"
+import { prisma } from "../../../db";
 
-export default async function handler(req: NextApiRequest, res:NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   const body = req.body;
 
   // see if the user exists
@@ -33,5 +36,5 @@ export default async function handler(req: NextApiRequest, res:NextApiResponse) 
     res.status(200).json(newUser);
   }
 
-  res.status(200).json({ message: "Did not create new user" });
+  res.status(500).json({ message: "Did not create new user" });
 }

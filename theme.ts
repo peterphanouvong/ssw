@@ -1,4 +1,4 @@
-import { createTheme } from "baseui";
+import { createTheme, Theme } from "baseui";
 import { LightTheme } from "baseui";
 const primitives = {
   ...LightTheme,
@@ -13,15 +13,6 @@ const primitives = {
   grey700: "#424c57",
   grey800: "#2c333a",
   grey900: "#16191d",
-  accent: "#F127E4", // hot pink
-  accent50: "#FDEDFC",
-  accent100: "#FCD3F9",
-  accent200: "#F89FF3",
-  accent300: "#F45AEA",
-  accent400: "#F127E4",
-  accent500: "#B71DAD",
-  accent600: "#901788",
-  accent700: "#600F5B",
   borderRadius: "0.5rem",
   borderRadius2: "1rem",
 };
@@ -35,14 +26,14 @@ const overrides = {
     buttonPrimarySelectedText: primitives.white,
     buttonPrimarySpinnerForeground: primitives.grey200,
     buttonPrimarySpinnerBackground: primitives.grey600,
-    buttonSecondaryFill: primitives.accent100,
-    buttonSecondaryText: primitives.accent,
-    buttonSecondaryHover: primitives.accent200,
-    buttonSecondaryActive: primitives.accent300,
-    buttonSecondarySelectedFill: primitives.accent200,
-    buttonSecondarySelectedText: primitives.accent,
-    buttonSecondarySpinnerForeground: primitives.accent700,
-    buttonSecondarySpinnerBackground: primitives.accent300,
+    buttonSecondaryFill: primitives.grey50,
+    buttonSecondaryText: primitives.grey600,
+    buttonSecondaryHover: primitives.grey100,
+    buttonSecondaryActive: primitives.grey200,
+    buttonSecondarySelectedFill: primitives.grey100,
+    buttonSecondarySelectedText: primitives.grey600,
+    buttonSecondarySpinnerForeground: primitives.grey600,
+    buttonSecondarySpinnerBackground: primitives.grey200,
     inputFill: primitives.grey50,
     inputBorder: primitives.grey50,
   },
@@ -59,6 +50,16 @@ const overrides = {
     small: "@media screen and (min-width: 768px)",
     medium: "@media screen and (min-width: 1024px)",
     large: "@media screen and (min-width: 1440px)",
+  },
+  boxShadow: {
+    elevation100:
+      "0px 1px 3px rgba(18, 20, 23, 0.06), 0px 1px 2px rgba(18, 20, 23, 0.12), 0px -1px 3px rgba(18, 20, 23, 0.06)",
+    elevation200:
+      "0px 2px 4px rgba(18, 20, 23, 0.06), 0px 3px 6px rgba(18, 20, 23, 0.07), 0px -2px 6px rgba(18, 20, 23, 0.06)",
+    elevation300:
+      "0px 3px 6px rgba(18, 20, 23, 0.08), 0px 10px 20px rgba(18, 20, 23, 0.08), 0px -3px 12px rgba(18, 20, 23, 0.04)",
+    elevation400:
+      "0px 6px 12px rgba(18, 20, 23, 0.06), 0px 15px 24px rgba(18, 20, 23, 0.07), 0px -4px 12px rgba(18, 20, 23, 0.05)",
   },
 };
 export const theme = createTheme(primitives, overrides);

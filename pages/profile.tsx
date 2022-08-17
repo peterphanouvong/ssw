@@ -1,60 +1,57 @@
-import { Avatar } from "baseui/avatar";
-import { Block } from "baseui/block";
 import { Button } from "baseui/button";
+import { StyledLink } from "baseui/link";
 import { Spinner } from "baseui/spinner";
 import type { NextPage } from "next";
+import Link from "next/link";
 import { InputField } from "../components/InputField";
 import { useUserContext } from "../context/userContext";
 import { useUser } from "../hooks/useUser";
 import { SSWAppLayout } from "../layout/SSWAppLayout";
-import { HeadingLarge } from "baseui/typography";
+import SSWProfilePageLayout from "../layout/SSWProfilePageLayout";
 
 const Profile: NextPage = () => {
   const { oauthUser } = useUserContext();
   const { user, isLoading } = useUser(oauthUser?.id);
 
+  if (!oauthUser)
+    return (
+      <>
+        you must be logged in to view this page.{" "}
+        <Link href="/api/auth/login">
+          <StyledLink style={{ cursor: "pointer" }}>Log in</StyledLink>
+        </Link>
+      </>
+    );
   if (isLoading) return <Spinner />;
   return (
     <SSWAppLayout>
-      <Block
-        display="flex"
-        alignItems="center"
-        flexDirection="column"
-        marginBottom="2rem"
-        gridGap="1rem"
-      >
-        <Avatar size="96px" name={user?.firstName + " " + user?.lastName} />
-        <HeadingLarge
-          style={{
-            marginTop: 0,
-          }}
-        >{`${user?.firstName} ${user?.lastName}`}</HeadingLarge>
-      </Block>
-      <form method="POST" action="/api/forms/profile">
-        <input type="hidden" name="id" value={oauthUser?.id} />
-        <InputField
-          label="First name"
-          initialState={{ value: user?.firstName }}
-          name="firstName"
-        />
-        <InputField
-          label="Last name"
-          initialState={{ value: user!.lastName as string }}
-          name="lastName"
-        />
-        <InputField
-          label="Email"
-          initialState={{ value: user?.email }}
-          name="email"
-        />
-        <InputField
-          label="Volleyball Australia ID"
-          initialState={{ value: user?.profile.vnswId as string }}
-          name="vnswId"
-        />
+      <SSWProfilePageLayout pageTitle="Personal information">
+        <form method="POST" action="/api/forms/profile">
+          <input type="hidden" name="id" value={oauthUser?.id} />
+          <InputField
+            label="First name"
+            initialState={{ value: user?.firstName }}
+            name="firstName"
+          />
+          <InputField
+            label="Last name"
+            initialState={{ value: user!.lastName as string }}
+            name="lastName"
+          />
+          <InputField
+            label="Email"
+            initialState={{ value: user?.email }}
+            name="email"
+          />
+          <InputField
+            label="Volleyball Australia ID"
+            initialState={{ value: user?.profile.vnswId as string }}
+            name="vnswId"
+          />
 
-        <Button>Save</Button>
-      </form>
+          <Button>Save</Button>
+        </form>
+      </SSWProfilePageLayout>
     </SSWAppLayout>
   );
 };
