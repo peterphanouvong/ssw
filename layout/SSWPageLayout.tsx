@@ -54,7 +54,9 @@ const SSWPageLayout = ({
         ) : null}
 
         <Container>
-          <HeadingLarge style={{ marginTop: 0 }}>{pageTitle}</HeadingLarge>
+          <HeadingLarge style={{ marginBottom: theme.sizing.scale900 }}>
+            {pageTitle}
+          </HeadingLarge>
           {children}
         </Container>
       </div>
