@@ -1,8 +1,8 @@
-import { styled, useStyletron } from "baseui";
-import { Block } from "baseui/block";
+import { useStyletron } from "baseui";
 import { Button } from "baseui/button";
+import { ChevronLeft } from "baseui/icon";
 import { StyledLink } from "baseui/link";
-import { HeadingMedium, HeadingSmall, HeadingXSmall } from "baseui/typography";
+import { HeadingXSmall, LabelMedium } from "baseui/typography";
 import Link from "next/link";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 
@@ -12,14 +12,18 @@ type Props = {
     href: string;
   }[];
   title: string;
+  backLink?: {
+    text: string;
+    href: string;
+  };
 };
 
-export const SSWSecondaryNav = ({ items, title }: Props) => {
+export const SSWSecondaryNav = ({ items, title, backLink }: Props) => {
   const [css, theme] = useStyletron();
   const isDesktop = useMediaQuery(theme.breakpoints.medium);
 
   const wrapperCss = css({
-    padding: "0.5rem 1rem",
+    padding: "0.75rem 1rem",
     display: "flex",
     gap: "1rem",
     position: "sticky",
@@ -30,7 +34,7 @@ export const SSWSecondaryNav = ({ items, title }: Props) => {
   const desktopWrapper = css({
     display: "flex",
     flexDirection: "column",
-    padding: "2rem 4rem",
+    padding: "2rem 2rem 2rem 2rem",
     minInlineSize: "250px",
   });
 
@@ -42,8 +46,23 @@ export const SSWSecondaryNav = ({ items, title }: Props) => {
     padding: 0,
   });
 
+  const backLinkWrapperCss = css({
+    display: "flex",
+    alignItems: "center",
+    gap: theme.sizing.scale400,
+    marginLeft: "-1.75rem",
+    color: theme.colors.contentSecondary,
+  });
+
   return isDesktop ? (
     <div className={desktopWrapper}>
+      {backLink ? (
+        <div className={backLinkWrapperCss}>
+          <ChevronLeft />
+          <Link href={backLink.href}>{backLink.text}</Link>
+        </div>
+      ) : null}
+
       <HeadingXSmall style={{ marginTop: "4.5rem", marginBottom: "2rem" }}>
         {title}
       </HeadingXSmall>
@@ -60,14 +79,23 @@ export const SSWSecondaryNav = ({ items, title }: Props) => {
       </ul>
     </div>
   ) : (
-    <div className={wrapperCss}>
-      {items.map((item, i) => (
-        <Link key={i} href={item.href}>
-          <Button kind="secondary" size="compact" shape="pill">
-            {item.label}
-          </Button>
-        </Link>
-      ))}
-    </div>
+    <>
+      <div className={wrapperCss}>
+        {items.map((item, i) => (
+          <Link key={i} href={item.href}>
+            <Button kind="secondary" size="compact" shape="pill">
+              {item.label}
+            </Button>
+          </Link>
+        ))}
+      </div>
+      <LabelMedium
+        style={{
+          margin: "0 0 0 1.5rem",
+        }}
+      >
+        {title}
+      </LabelMedium>
+    </>
   );
 };

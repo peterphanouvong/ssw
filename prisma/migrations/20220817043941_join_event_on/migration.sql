@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "UsersAttendingEvents" ADD COLUMN     "joinedOn" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

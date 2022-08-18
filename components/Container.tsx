@@ -6,7 +6,7 @@ type Props = {
 };
 
 const Container = ({ children }: Props) => {
-  const [css, theme] = useStyletron();
+  const [css] = useStyletron();
   const container = css({
     maxWidth: "1100px",
     padding: "1.5rem",

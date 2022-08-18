@@ -7,7 +7,7 @@ import { EventCard } from "./EventCard";
 type Props = {};
 
 export const EventList = (props: Props) => {
-  const [css, theme] = useStyletron();
+  const [css] = useStyletron();
   const wrapper = css({
     display: "flex",
     flexDirection: "column",

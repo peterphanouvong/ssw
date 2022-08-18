@@ -35,11 +35,13 @@ export const SSWNavbar = (props: Props) => {
   const [css, theme] = useStyletron();
 
   const bottomCss = css({
-    position: "absolute",
+    position: "fixed",
+    zIndex: 9999,
     bottom: 0,
+    blockSize: theme.sizing.scale1600,
+    background: theme.colors.white,
     padding: "0.5rem",
-    // @ts-ignore
-    borderTop: "1px solid " + theme.colors.grey100,
+    borderTop: "1px solid " + theme.colors.borderAccent,
     display: "flex",
     justifyContent: "space-around",
     width: "100%",

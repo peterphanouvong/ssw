@@ -1,17 +1,19 @@
-import { Event } from "@prisma/client";
-import { NextServerOptions } from "next/dist/server/next";
-import React from "react";
+import { toaster } from "baseui/toast";
+import { EventDetails } from "../../@types/eventDetails";
+import { EventAttendeesCard } from "../../components/EventAttendeesCard";
+import { EventDetailsCard } from "../../components/EventDetailsCard";
+import { EventDetailsFooter } from "../../components/EventDetailsFooter";
+import { useUserContext } from "../../context/userContext";
 import { SSWAppLayout } from "../../layout/SSWAppLayout";
-import SSWEventPageLayout from "../../layout/SSWEventPageLayout";
+import SSWEventDetailsLayout from "../../layout/SSWEventDetailsPageLayout";
 
 type Props = {
-  event: Event;
+  event: EventDetails;
 };
 
 export async function getServerSideProps({ params }: any) {
   const res = await fetch(`http://localhost:3000/api/events/${params.id}`);
   const event = await res.json();
-  console.log(event);
 
   return {
     props: {
@@ -21,10 +23,33 @@ export async function getServerSideProps({ params }: any) {
 }
 
 function Event({ event }: Props) {
-  console.log(event);
+  const { oauthUser } = useUserContext();
+
+  const handleButton = async () => {
+    const data = await fetch("/api/events/join", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: oauthUser?.id,
+        eventId: event.id,
+      }),
+    });
+    if (data.status === 200) {
+      const res = await data.json();
+      console.log(res);
+      toaster.positive(<>Successfully joined {event.name}!</>);
+    } else {
+      const res = await data.json();
+      toaster.negative(<>{res.error.message}</>);
+    }
+  };
+
   return (
     <SSWAppLayout>
-      <SSWEventPageLayout pageTitle={event.name}>sup</SSWEventPageLayout>
+      <SSWEventDetailsLayout event={event} pageTitle="Event details">
+        <EventDetailsCard event={event} />
+        <EventAttendeesCard event={event} />
+        <EventDetailsFooter event={event} />
+      </SSWEventDetailsLayout>
     </SSWAppLayout>
   );
 }

@@ -1,6 +1,5 @@
 import { Button } from "baseui/button";
 import { Spinner } from "baseui/spinner";
-import React from "react";
 import { InputField } from "../../components/InputField";
 import { useUserContext } from "../../context/userContext";
 import { useUser } from "../../hooks/useUser";

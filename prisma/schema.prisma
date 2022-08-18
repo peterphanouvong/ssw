@@ -17,6 +17,7 @@ model User {
   lastName          String?
   createdAt         DateTime @default(now())
   profile           Profile?
+  events            UsersAttendingEvents[]
 }
 
 model Profile {
@@ -33,9 +34,20 @@ model Event {
   endTime           DateTime?
   price             Decimal?
   location          String?
+  attendees         UsersAttendingEvents[]
   // description
   // video
   
+}
+
+model UsersAttendingEvents {
+  user              User      @relation(fields: [userId], references: [id])
+  userId            String
+  event             Event     @relation(fields: [eventId], references: [id])
+  eventId           Int
+  joinedOn          DateTime  @default(now())
+
+  @@id([userId, eventId])
 }
 
 model ActiveKidsVoucher {

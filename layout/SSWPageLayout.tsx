@@ -1,5 +1,5 @@
 import { useStyletron } from "baseui";
-import { HeadingLarge, HeadingXLarge, HeadingXXLarge } from "baseui/typography";
+import { HeadingLarge } from "baseui/typography";
 import React from "react";
 import Container from "../components/Container";
 import { useMediaQuery } from "../hooks/useMediaQuery";
@@ -12,6 +12,10 @@ type Props = {
     href: string;
   }[];
   secondaryNavTitle: string;
+  secondaryNavBackLink?: {
+    text: string;
+    href: string;
+  };
   pageTitle: string;
 };
 
@@ -19,6 +23,7 @@ const SSWPageLayout = ({
   children,
   secondaryNavItems,
   secondaryNavTitle,
+  secondaryNavBackLink,
   pageTitle,
 }: Props) => {
   const [css, theme] = useStyletron();
@@ -43,6 +48,7 @@ const SSWPageLayout = ({
           <SSWSecondaryNav
             items={secondaryNavItems}
             title={secondaryNavTitle}
+            backLink={secondaryNavBackLink}
           />
         ) : null}
 

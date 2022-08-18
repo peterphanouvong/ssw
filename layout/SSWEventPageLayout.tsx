@@ -19,8 +19,12 @@ const SSWEventPageLayout = (props: Props) => {
           label: "My events",
           href: "/events/mine",
         },
+        {
+          label: "Create event",
+          href: "/events/create",
+        },
       ]}
-      secondaryNavTitle="My profile"
+      secondaryNavTitle="Events"
     >
       {props.children}
     </SSWPageLayout>
