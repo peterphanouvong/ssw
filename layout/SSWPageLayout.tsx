@@ -34,6 +34,7 @@ const SSWPageLayout = ({
     margin: "auto",
     padding: "2rem",
   });
+
   return (
     <div className={isDesktop ? container : ""}>
       <div

@@ -35,7 +35,9 @@ const Profile: NextPage = () => {
           />
           <InputField
             label="Last name"
-            initialState={{ value: user!.lastName as string }}
+            initialState={{
+              value: user?.lastName == null ? undefined : user.lastName,
+            }}
             name="lastName"
           />
           <InputField
@@ -45,7 +47,10 @@ const Profile: NextPage = () => {
           />
           <InputField
             label="Volleyball Australia ID"
-            initialState={{ value: user?.profile.vnswId as string }}
+            initialState={{
+              value:
+                user?.profile.vnswId == null ? undefined : user.profile.vnswId,
+            }}
             name="vnswId"
           />
 

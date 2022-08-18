@@ -116,17 +116,7 @@ export const SSWNavbar = (props: Props) => {
               />
             )}
           >
-            <Button
-              kind="tertiary"
-              shape="round"
-              overrides={{
-                BaseButton: {
-                  style: ({ $theme }) => ({
-                    padding: "4px",
-                  }),
-                },
-              }}
-            >
+            <Button kind="tertiary" shape="round" style={{ padding: "4px" }}>
               <Avatar name={`${user.firstName} ${user.lastName}`} />
             </Button>
           </StatefulPopover>
@@ -149,14 +139,8 @@ export const SSWNavbar = (props: Props) => {
             <Button
               kind="tertiary"
               shape="round"
-              overrides={{
-                BaseButton: {
-                  style: ({ $theme }) => ({
-                    padding: "4px",
-                  }),
-                },
-              }}
               onClick={() => setIsProfileNavOpen(true)}
+              style={{ padding: "4px" }}
             >
               <Avatar name={`${user.firstName} ${user.lastName}`} />
             </Button>
@@ -172,8 +156,8 @@ export const SSWNavbar = (props: Props) => {
                   }),
                 },
                 Backdrop: {
-                  style: ({ $theme }) => ({
-                    background: "transparent",
+                  style: ({}) => ({
+                    backgroundColor: "transparent",
                   }),
                 },
               }}
