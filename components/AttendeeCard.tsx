@@ -12,6 +12,8 @@ export const AttendeeCard = ({ attendee }: Props) => {
   const innerDivCss = css({
     display: "flex",
     flexDirection: "column",
+    gap: theme.sizing.scale600,
+    width: "100%",
   });
   const avatarWrapperCss = css({
     display: "flex",

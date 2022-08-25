@@ -1,14 +1,35 @@
 import { useStyletron } from "baseui";
 import { Button } from "baseui/button";
+import { toaster } from "baseui/toast";
 import dayjs from "dayjs";
 import { EventDetails } from "../@types/eventDetails";
+import { useUserContext } from "../context/userContext";
 
 type Props = {
   event: EventDetails;
 };
 
 export const EventDetailsFooter = ({ event }: Props) => {
+  const { oauthUser } = useUserContext();
   const [css, theme] = useStyletron();
+
+  const handleJoinEvent = async () => {
+    const data = await fetch("/api/events/join", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: oauthUser?.id,
+        eventId: event.id,
+      }),
+    });
+    if (data.status === 200) {
+      const res = await data.json();
+      console.log(res);
+      toaster.positive(<>Successfully joined {event.name}!</>);
+    } else {
+      const res = await data.json();
+      toaster.negative(<>{res.error.message}</>);
+    }
+  };
 
   const footerCss = css({
     position: "fixed",
@@ -78,7 +99,7 @@ export const EventDetailsFooter = ({ event }: Props) => {
           </div>
           <div className={footerButtonGroupCss}>
             <Button kind="secondary">Share</Button>
-            <Button>Join Event</Button>
+            <Button onClick={handleJoinEvent}>Join Event</Button>
           </div>
         </div>
       </div>
