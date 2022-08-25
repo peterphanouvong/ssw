@@ -1,5 +1,7 @@
 import { Event } from "@prisma/client";
 import React from "react";
+import { EventDetails } from "../@types/eventDetails";
+import { EventDetailsFooter } from "../components/EventDetailsFooter";
 import SSWPageLayout from "./SSWPageLayout";
 
 type Props = {
@@ -29,6 +31,7 @@ const SSWEventDetailsLayout = (props: Props) => {
       secondaryNavTitle={props.event.name}
     >
       {props.children}
+      <EventDetailsFooter event={props.event as EventDetails} />
     </SSWPageLayout>
   );
 };

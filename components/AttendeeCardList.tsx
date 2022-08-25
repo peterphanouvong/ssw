@@ -11,15 +11,14 @@ export const AttendeeCardList = ({ attendees }: Props) => {
   const ulCss = css({
     listStyle: "none",
     padding: 0,
-    display: "flex",
-    justifyContent: "space-between",
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr 1fr",
     gap: theme.sizing.scale600,
     alignItems: "stretch",
-  });
-
-  const liCss = css({
     width: "100%",
   });
+
+  const liCss = css({});
   return (
     <ul className={ulCss}>
       {attendees.map((attendee) => (

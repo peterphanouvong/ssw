@@ -29,8 +29,8 @@ const ListItem = styled("li", ({ $theme }) => ({
 type Props = {};
 
 export const SSWNavbar = (props: Props) => {
-  const { oauthUser, isLoading } = useUserContext();
-  const { user } = useUser(oauthUser?.id);
+  const { oauthUser } = useUserContext();
+  const { user, isLoading } = useUser(oauthUser?.id);
 
   const [css, theme] = useStyletron();
 
@@ -51,30 +51,40 @@ export const SSWNavbar = (props: Props) => {
 
   const isTablet = useMediaQuery(theme.breakpoints.small);
 
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <>Loading..</>;
 
   return !!!user ? (
     // Not authenticated
-    <HeaderNavigation>
-      <NavigationList $align={ALIGN.left}>
-        <NavigationItem>
-          <Link href="/">
-            {isTablet ? "Sydney South West Volleyball" : "SSWV"}
-          </Link>
-        </NavigationItem>
-      </NavigationList>
-      <NavigationList $align={ALIGN.center} />
-      <NavigationList $align={ALIGN.right}>
-        <NavigationItem>
-          <StyledLink href="/api/auth/login">Sign in</StyledLink>
-        </NavigationItem>
-        <NavigationItem $style={{ paddingRight: "24px" }}>
-          <Link href="/api/auth/register">
-            <Button>Sign up</Button>
-          </Link>
-        </NavigationItem>
-      </NavigationList>
-    </HeaderNavigation>
+    <>
+      <HeaderNavigation>
+        <NavigationList $align={ALIGN.left}>
+          <NavigationItem>
+            <Link href="/">
+              {isTablet ? "Sydney South West Volleyball" : "SSWV"}
+            </Link>
+          </NavigationItem>
+        </NavigationList>
+        <NavigationList $align={ALIGN.center} />
+        <NavigationList $align={ALIGN.right}>
+          <NavigationItem>
+            <StyledLink href="/api/auth/login">Sign in</StyledLink>
+          </NavigationItem>
+          <NavigationItem $style={{ paddingRight: "24px" }}>
+            <Link href="/api/auth/register">
+              <Button>Sign up</Button>
+            </Link>
+          </NavigationItem>
+        </NavigationList>
+      </HeaderNavigation>
+      <div className={bottomCss}>
+        <Link href="/">
+          <Button kind="tertiary">Home</Button>
+        </Link>
+        <Link href="/events">
+          <Button kind="tertiary">Events</Button>
+        </Link>
+      </div>
+    </>
   ) : isTablet ? (
     // Authenticated tablet
     <HeaderNavigation>
