@@ -10,12 +10,12 @@ import {
 import { StyledLink } from "baseui/link";
 import { StatefulMenu } from "baseui/menu";
 import { StatefulPopover } from "baseui/popover";
-import { Spinner } from "baseui/spinner";
 import Link from "next/link";
 import { useState } from "react";
 import { useUserContext } from "../context/userContext";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useUser } from "../hooks/useUser";
+import { Skeleton } from "baseui/skeleton";
 
 const List = styled("ul", () => ({
   padding: 0,
@@ -51,7 +51,8 @@ export const SSWNavbar = (props: Props) => {
 
   const isTablet = useMediaQuery(theme.breakpoints.small);
 
-  if (isLoading) return <>Loading..</>;
+  if (isLoading)
+    return <Skeleton width="100%" height="73px" animation={true} />;
 
   return !!!user ? (
     // Not authenticated
